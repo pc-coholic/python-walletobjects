@@ -2,7 +2,7 @@ from typing import Dict, Optional
 
 class utils(object):
     def LazyI18nToDict(LazyI18nString) -> Dict[str, str]:
-        return LazyI18nString.data
+        return dict(LazyI18nString.data)
 
     def localizedString(stringsDict: Dict[str, str], default: Optional[str]=None) -> str:
         if not isinstance(stringsDict, dict) and type(stringsDict).__name__ is not 'LazyI18nString':
