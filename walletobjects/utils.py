@@ -71,7 +71,7 @@ class utils(object):
 
         return {
             'kind': 'walletobjects#image',
-            'sourceUri': utils.localizedUri(uri, description, stringsDict)
+            'sourceUri': utils.localizedUri(uri, description, stringsDict, default)
         }
 
     def venue(name: Dict[str, str], address: Dict[str, str], default: Optional[str]=None) -> str:
