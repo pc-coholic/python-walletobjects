@@ -162,6 +162,11 @@ class eventTicketClass(dict):
         except:
             self._eventTicketClass['customGateLabel'] = utils.localizedString(gateLabel, self._defaultLang)
 
+    def callbackUrl(self, url):
+        self._eventTicketClass['callbackOptions'] = {
+            'url': url
+        }
+
     def __getitem__(self, index):
         return self._eventTicketClass[index]
 
