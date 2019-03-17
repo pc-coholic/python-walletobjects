@@ -26,7 +26,8 @@ class eventTicketObject(dict):
             'classId': classID,
             'state': objectState,
         }
-    def barcode(self, type: constants.barcode, value: str) -> None:
+
+    def barcode(self, type: constants.barcode, value: str, alternateText: str = None) -> None:
         if not hasattr(constants.barcode, type):
             raise TypeError('barcode is not of instance walletobjects.constants.barcode')
 
@@ -34,7 +35,9 @@ class eventTicketObject(dict):
             'kind': 'walletobjects#barcode',
             'type': type,
             'value': value,
+            'alternateText': alternateText if alternateText else "",
         }
+
     '''
     def messages(self, header: str, localizedHeader: Dict[str, str], body: str, localizedBody: Dict[str, str]) -> None:
         if 'messages' not in self._eventTicketObject:
