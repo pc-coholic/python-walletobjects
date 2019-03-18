@@ -21,7 +21,7 @@ setup(
     author='Martin Gross',
     author_email='martin@pc-coholic.de',
     license='GNU Lesser General Public License v3 (LGPLv3)',
-    install_requires=[],
+    install_requires=['requests', 'pycryptodome'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
