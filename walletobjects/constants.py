@@ -27,9 +27,12 @@ class row(object):
 
 class section(object):
     section = 'section'
+    theater = 'theater'
 
 class gate(object):
     gate = 'gate'
+    entrance = 'entrance'
+    door = 'door'
 
 class objectState(object):
     active = 'active'

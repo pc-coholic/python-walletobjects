@@ -79,42 +79,44 @@ class eventTicketObject(dict):
 
         self._eventTicketObject['textModulesData'].append(textModule)
 
-
     def linksModuleData(self, uri: str, description: str, localizedDescriptions: Dict[str, str]) -> None:
         if 'linksModuleData' not in self._eventTicketObject:
             self._eventTicketObject['linksModuleData'] = []
 
         self._eventTicketObject['linksModuleData'].append(utils.localizedUri(uri, description, localizedDescriptions, self._defaultLang))
-    '''
-    def seat(self, seatLabel: Union[Dict[str, str], constants.seat]) -> None:
-        try:
-            if hasattr(constants.seat, seatLabel):
-                self._eventTicketObject['seatLabel'] = seatLabel
-        except:
-            self._eventTicketObject['customSeatLabel'] = utils.localizedString(seatLabel, self.defaultLang)
 
-    def row(self, rowLabel: Union[Dict[str, str], constants.row]) -> None:
-        try:
-            if hasattr(constants.row, rowLabel):
-                self._eventTicketObject['rowLabel'] = rowLabel
-        except:
-            self._eventTicketObject['customRowLabel'] = utils.localizedString(rowLabel, self.defaultLang)
+    def seat(self, seat: str) -> None:
+        if 'seatInfo' not in self._eventTicketObject:
+            self._eventTicketObject['seatInfo'] = {
+                'kind': 'walletobjects#eventSeat'
+            }
 
+        self._eventTicketObject['seatInfo']['seat'] = utils.localizedString(seat, self._defaultLang)
 
-    def section(self, sectionLabel: Union[Dict[str, str], constants.section]) -> None:
-        try:
-            if hasattr(constants.section, sectionLabel):
-                self._eventTicketObject['sectionLabel'] = sectionLabel
-        except:
-            self._eventTicketObject['customSectionLabel'] = utils.localizedString(sectionLabel, self.defaultLang)
+    def row(self, row: str) -> None:
+        if 'seatInfo' not in self._eventTicketObject:
+            self._eventTicketObject['seatInfo'] = {
+                'kind': 'walletobjects#eventSeat'
+            }
 
-    def gate(self, gateLabel: Union[Dict[str, str], constants.gate]) -> None:
-        try:
-            if hasattr(constants.gate, gateLabel):
-                self._eventTicketObject['gateLabel'] = gateLabel
-        except:
-            self._eventTicketObject['customGateLabel'] = utils.localizedString(gateLabel, self.defaultLang)
-    '''
+        self._eventTicketObject['seatInfo']['row'] = utils.localizedString(row, self._defaultLang)
+
+    def row(self, section: str) -> None:
+        if 'seatInfo' not in self._eventTicketObject:
+            self._eventTicketObject['seatInfo'] = {
+                'kind': 'walletobjects#eventSeat'
+            }
+
+        self._eventTicketObject['seatInfo']['section'] = utils.localizedString(section, self._defaultLang)
+
+    def gate(self, gate: str) -> None:
+        if 'seatInfo' not in self._eventTicketObject:
+            self._eventTicketObject['seatInfo'] = {
+                'kind': 'walletobjects#eventSeat'
+            }
+
+        self._eventTicketObject['seatInfo']['gate'] = utils.localizedString(gate, self._defaultLang)
+
     def reservationInfo(self, reservationInfo: str) -> None:
         self._eventTicketObject['reservationInfo'] = {
             'kind': 'walletobjects#eventReservationInfo',
