@@ -1,78 +1,187 @@
-from walletobjects import eventTicketClass, eventTicketObject, buttonJWT
-from walletobjects.constants import (
-    reviewStatus, multipleDevicesAndHoldersAllowedStatus, doorsOpen, confirmationCode,
-    seat, row, section, gate, objectState, barcode
-)
+from walletobjects import EventTicketClass, EventTicketObject
+from walletobjects.constants import (Barcode, ConfirmationCode, DoorsOpen,
+                                     Gate,
+                                     MultipleDevicesAndHoldersAllowedStatus,
+                                     ObjectState, ReviewStatus, Row, Seat,
+                                     Section)
 
 
-def makeTranslatableStrings(what):
+def make_translatable_strings(what):
     return {
         'de': "%s DE" % what,
         'en': "%s EN" % what,
         'fr': "%s FR" % what,
     }
 
-#evTclass = eventTicketClass('issuerName', 'classID', multipleDevicesAndHoldersAllowedStatus.multipleHolders, makeTranslatableStrings('Eventname'), reviewStatus.underReview, 'de')
 
-#evTclass.localizedIssuerName(makeTranslatableStrings('IssuerName'))
+evt_class = EventTicketClass(
+    'issuerName',
+    'classID',
+    MultipleDevicesAndHoldersAllowedStatus.multipleHolders,
+    make_translatable_strings('Eventname'),
+    ReviewStatus.underReview,
+    'de'
+)
 
-#evTclass.messages('Header 1', makeTranslatableStrings('Translatable Message Header 1'), 'Body 1', makeTranslatableStrings('Translatable Message Body 1'))
-#evTclass.messages('Header 2', makeTranslatableStrings('Translatable Message Header 2'), 'Body 2', makeTranslatableStrings('Translatable Message Body 2'))
-#evTclass.messages('Header 3', makeTranslatableStrings('Translatable Message Header 3'), 'Body 3', makeTranslatableStrings('Translatable Message Body 3'))
+evt_class.localized_issuer_name(make_translatable_strings('IssuerName'))
 
-#evTclass.homepageUri('http://google.com/', 'The Google Search Engine', makeTranslatableStrings('HomepageURI'))
-#evTclass.imageModulesData('http://google.com/logo.png', 'The Google Search Engine Logo', makeTranslatableStrings('imageModulesData'))
+evt_class.messages(
+    'Header 1',
+    make_translatable_strings('Translatable Message Header 1'),
+    'Body 1',
+    make_translatable_strings('Translatable Message Body 1')
+)
 
-#evTclass.linksModuleData('http://url1/', 'Description URL 1', makeTranslatableStrings('URL 1'))
-#evTclass.linksModuleData('http://url2/', 'Description URL 2', makeTranslatableStrings('URL 2'))
-#evTclass.linksModuleData('http://url3/', 'Description URL 3', makeTranslatableStrings('URL 3'))
+evt_class.messages(
+    'Header 2',
+    make_translatable_strings('Translatable Message Header 2'),
+    'Body 2',
+    make_translatable_strings('Translatable Message Body 2')
+)
 
-#evTclass.locations(37.424015499999996, -122.09259560000001)
-#evTclass.locations(37.424354, -122.09508869999999)
-#evTclass.locations(37.7901435, -122.39026709999997)
-#evTclass.locations(40.7406578, -74.00208940000002)
+evt_class.messages(
+    'Header 3',
+    make_translatable_strings('Translatable Message Header 3'),
+    'Body 3',
+    make_translatable_strings('Translatable Message Body 3')
+)
 
-#evTclass.textModulesData('Header 1', 'Body 1', makeTranslatableStrings('textModulesData Header 1'), makeTranslatableStrings('textModulesData Body 1'))
-#evTclass.textModulesData('Header 2', 'Body 2', makeTranslatableStrings('textModulesData Header 2'), makeTranslatableStrings('textModulesData Body 2'))
+evt_class.homepage_uri(
+    'http://google.com/',
+    'The Google Search Engine',
+    make_translatable_strings('HomepageURI')
+)
+evt_class.image_modules_data(
+    'http://google.com/logo.png',
+    'The Google Search Engine Logo',
+    make_translatable_strings('imageModulesData')
+)
 
-#evTclass.countryCode('de')
-#evTclass.hideBarcode(True)
-#evTclass.heroImage('http://google.com/logo.png', 'The Hero Image', makeTranslatableStrings('Hero Image'))
-#evTclass.hexBackgroundColor('#3B1C4A')
-#evTclass.eventId('EventID-Test-123')
-#evTclass.logo('http://google.com/logo.png', 'The Logo Image', makeTranslatableStrings('Logo Image'))
-#evTclass.venue(makeTranslatableStrings('Venue Name'), makeTranslatableStrings('Venue Address'))
+evt_class.links_module_data(
+    'http://url1/',
+    'Description URL 1',
+    make_translatable_strings('URL 1')
+)
 
-#evTclass.dateTime(doorsOpen.doorsOpen, '1985-04-12T23:20:50.52Z', '1985-04-12T23:20:50.52Z', '1985-04-12T25:20:50.52Z')
-#evTclass.dateTime(doorsOpen.gatesOpen, '1985-04-12T23:20:50.52Z', '1985-04-12T23:20:50.52Z', '1985-04-12T25:20:50.52Z')
-#evTclass.dateTime(makeTranslatableStrings("Customer Door Open"), '1985-04-12T23:20:50.52Z', '1985-04-12T23:20:50.52Z', '1985-04-12T25:20:50.52Z')
+evt_class.links_module_data(
+    'http://url2/',
+    'Description URL 2',
+    make_translatable_strings('URL 2')
+)
 
-#evTclass.finePrint(makeTranslatableStrings('Fineprint Fineprint Fineprint'))
+evt_class.links_module_data(
+    'http://url3/',
+    'Description URL 3',
+    make_translatable_strings('URL 3')
+)
 
-#evTclass.confirmationCodeLabel(confirmationCode.confirmationCode)
-#evTclass.confirmationCodeLabel(confirmationCode.confirmationNumber)
-#evTclass.confirmationCodeLabel(confirmationCode.orderNumber)
-#evTclass.confirmationCodeLabel(confirmationCode.reservationNumber)
-#evTclass.confirmationCodeLabel(makeTranslatableStrings('Custom Conformation Code Label'))
+evt_class.locations(37.424015499999996, -122.09259560000001)
+evt_class.locations(37.424354, -122.09508869999999)
+evt_class.locations(37.7901435, -122.39026709999997)
+evt_class.locations(40.7406578, -74.00208940000002)
 
-#evTclass.seatLabel(seat.seat)
-#evTclass.seatLabel(makeTranslatableStrings('Custom Seat Label'))
+evt_class.text_modules_data(
+    'Header 1',
+    'Body 1',
+    make_translatable_strings('textModulesData Header 1'),
+    make_translatable_strings('textModulesData Body 1')
+)
 
-#evTclass.rowLabel(row.row)
-#evTclass.rowLabel(makeTranslatableStrings('Custom Row Label'))
+evt_class.text_modules_data(
+    'Header 2',
+    'Body 2',
+    make_translatable_strings('textModulesData Header 2'),
+    make_translatable_strings('textModulesData Body 2')
+)
 
-#evTclass.sectionLabel(section.section)
-#evTclass.sectionLabel(makeTranslatableStrings('Custom Section Label'))
+evt_class.country_code('de')
 
-#evTclass.gateLabel(gate.gate)
-#evTclass.gateLabel(makeTranslatableStrings('Custom Gate Label'))
-#print(str(evTclass))
-#print(evTclass)
-#print(evTclass['eventName']['kind'])
+evt_class.hide_barcode(True)
 
-evTobject = eventTicketObject('Object ID here', 'Class ID here', objectState.active, 'DE')
-evTobject.barcode(barcode.qrCode, '12345')
-print(evTobject)
+evt_class.hero_image(
+    'http://google.com/logo.png',
+    'The Hero Image',
+    make_translatable_strings('Hero Image')
+)
+
+evt_class.hex_background_color('#3B1C4A')
+
+evt_class.event_id('EventID-Test-123')
+
+evt_class.logo(
+    'http://google.com/logo.png',
+    'The Logo Image',
+    make_translatable_strings('Logo Image')
+)
+
+evt_class.venue(
+    make_translatable_strings('Venue Name'),
+    make_translatable_strings('Venue Address')
+)
+
+evt_class.date_time(
+    DoorsOpen.doorsOpen,
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T25:20:50.52Z'
+)
+
+evt_class.date_time(
+    DoorsOpen.gatesOpen,
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T25:20:50.52Z'
+)
+
+evt_class.date_time(
+    make_translatable_strings("Customer Door Open"),
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T23:20:50.52Z',
+    '1985-04-12T25:20:50.52Z'
+)
+
+evt_class.fine_print(make_translatable_strings('Fineprint Fineprint Fineprint'))
+
+evt_class.confirmation_code_label(ConfirmationCode.confirmationCode)
+
+evt_class.confirmation_code_label(ConfirmationCode.confirmationNumber)
+
+evt_class.confirmation_code_label(ConfirmationCode.orderNumber)
+
+evt_class.confirmation_code_label(ConfirmationCode.reservationNumber)
+
+evt_class.confirmation_code_label(make_translatable_strings('Custom Conformation Code Label'))
+
+evt_class.seat_label(Seat.seat)
+
+evt_class.seat_label(make_translatable_strings('Custom Seat Label'))
+
+evt_class.row_label(Row.row)
+
+evt_class.row_label(make_translatable_strings('Custom Row Label'))
+
+evt_class.section_label(Section.section)
+
+evt_class.section_label(make_translatable_strings('Custom Section Label'))
+
+evt_class.gate_label(Gate.gate)
+
+evt_class.gate_label(make_translatable_strings('Custom Gate Label'))
+
+print(str(evt_class))
+print(evt_class)
+print(evt_class['eventName']['kind'])
+
+evt_object = EventTicketObject(
+    'Object ID here',
+    'Class ID here',
+    ObjectState.active,
+    'DE'
+)
+
+evt_object.barcode(Barcode.qrCode, '12345')
+
+print(evt_object)
 
 '''
 button = buttonJWT(
@@ -82,4 +191,4 @@ button = buttonJWT(
 
 print(button)
 '''
-print(type(evTobject))
+print(type(evt_object))

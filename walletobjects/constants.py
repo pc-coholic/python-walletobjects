@@ -1,46 +1,55 @@
-class multipleDevicesAndHoldersAllowedStatus(object):
+class MultipleDevicesAndHoldersAllowedStatus(object):
     multipleHolders = 'multipleHolders'
     oneUserAllDevices = 'oneUserAllDevices'
     oneUserOneDevice = 'oneUserOneDevice'
 
-class reviewStatus(object):
-    #approved = 'approved'
+
+class ReviewStatus(object):
+    approved = 'approved'
     draft = 'draft'
-    #rejected = 'rejected'
+    rejected = 'rejected'
     underReview = 'underReview'
 
-class doorsOpen(object):
+
+class DoorsOpen(object):
     doorsOpen = 'doorsOpen'
     gatesOpen = 'gatesOpen'
 
-class confirmationCode(object):
+
+class ConfirmationCode(object):
     confirmationCode = 'confirmationCode'
     confirmationNumber = 'confirmationNumber'
     orderNumber = 'orderNumber'
     reservationNumber = 'reservationNumber'
 
-class seat(object):
+
+class Seat(object):
     seat = 'seat'
 
-class row(object):
+
+class Row(object):
     row = 'row'
 
-class section(object):
+
+class Section(object):
     section = 'section'
     theater = 'theater'
 
-class gate(object):
+
+class Gate(object):
     gate = 'gate'
     entrance = 'entrance'
     door = 'door'
 
-class objectState(object):
+
+class ObjectState(object):
     active = 'active'
     completed = 'completed'
     expired = 'expired'
     inactive = 'inactive'
 
-class barcode(object):
+
+class Barcode(object):
     aztec = 'aztec'
     codabar = 'codabar'
     code128 = 'code128'

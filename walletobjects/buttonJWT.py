@@ -1,56 +1,51 @@
 import json
 import time
-from typing import Dict, List, Optional
 
-from walletobjects import eventTicketClass, eventTicketObject
 
-class buttonJWT(dict):
+class ButtonJWT(dict):
     def __init__(
-        self, issuer: str, origins: List[str],
-        loyaltyClasses: Optional[str] = [], loyaltyObjects: Optional[str] = [],
-        offerClasses: Optional[str] = [], offerObjects: Optional[str] = [],
-        giftcardClasses: Optional[str] = [], giftcardObjects: Optional[str] = [],
-        eventTicketClasses: Optional[eventTicketClass] = [], eventTicketObjects: Optional[eventTicketObject]= [] ,
-        flightClasses: Optional[str] = [], flightObjects: Optional[str] = [], skinny: Optional[bool] = False
-    ) -> Dict:
+            self, issuer, origins, loyalty_classes=None, loyalty_objects=None, offer_classes=None, offer_objects=None,
+            giftcard_classes=None, giftcard_objects=None, event_ticket_classes=None, event_ticket_objects=None,
+            flight_classes=None, flight_objects=None, skinny=False
+    ):
 
         if skinny:
-            self._buttonJWT = {
+            self._button_jwt = {
                 'iss': issuer,
                 'aud': 'google',
                 'typ': 'savetoandroidpay',
                 'iat': int(time.time()),
                 'payload': {
-                    'loyaltyClasses': self.skinnify(loyaltyClasses),
-                    'loyaltyObjects': self.skinnify(loyaltyObjects),
-                    'offerClasses': self.skinnify(offerClasses),
-                    'offerObjects': self.skinnify(offerObjects),
-                    'giftcardClasses': self.skinnify(giftcardClasses),
-                    'giftcardObjects': self.skinnify(giftcardObjects),
-                    'eventTicketClasses': self.skinnify(eventTicketClasses),
-                    'eventTicketObjects': self.skinnify(eventTicketObjects),
-                    'flightClasses': self.skinnify(flightClasses),
-                    'flightObjects': self.skinnify(flightObjects),
+                    'loyaltyClasses': self.skinnify(loyalty_classes),
+                    'loyaltyObjects': self.skinnify(loyalty_objects),
+                    'offerClasses': self.skinnify(offer_classes),
+                    'offerObjects': self.skinnify(offer_objects),
+                    'giftcardClasses': self.skinnify(giftcard_classes),
+                    'giftcardObjects': self.skinnify(giftcard_objects),
+                    'eventTicketClasses': self.skinnify(event_ticket_classes),
+                    'eventTicketObjects': self.skinnify(event_ticket_objects),
+                    'flightClasses': self.skinnify(flight_classes),
+                    'flightObjects': self.skinnify(flight_objects),
                 },
                 'origins': origins
             }
         else:
-            self._buttonJWT = {
+            self._button_jwt = {
                 'iss': issuer,
                 'aud': 'google',
                 'typ': 'savetoandroidpay',
                 'iat':  int(time.time()),
                 'payload': {
-                    'loyaltyClasses': loyaltyClasses,
-                    'loyaltyObjects': loyaltyObjects,
-                    'offerClasses': offerClasses,
-                    'offerObjects': offerObjects,
-                    'giftcardClasses': giftcardClasses,
-                    'giftcardObjects': giftcardObjects,
-                    'eventTicketClasses': eventTicketClasses,
-                    'eventTicketObjects': eventTicketObjects,
-                    'flightClasses': flightClasses,
-                    'flightObjects': flightObjects,
+                    'loyaltyClasses': loyalty_classes,
+                    'loyaltyObjects': loyalty_objects,
+                    'offerClasses': offer_classes,
+                    'offerObjects': offer_objects,
+                    'giftcardClasses': giftcard_classes,
+                    'giftcardObjects': giftcard_objects,
+                    'eventTicketClasses': event_ticket_classes,
+                    'eventTicketObjects': event_ticket_objects,
+                    'flightClasses': flight_classes,
+                    'flightObjects': flight_objects,
                 },
                 'origins': origins
             }
@@ -68,9 +63,8 @@ class buttonJWT(dict):
 
         return skinny
 
-
     def __getitem__(self, index):
-        return self._buttonJWT[index]
+        return self._button_jwt[index]
 
     def __str__(self):
-        return json.dumps(self._buttonJWT, indent=4, sort_keys=True)
+        return json.dumps(self._button_jwt, indent=4, sort_keys=True)

@@ -1,142 +1,146 @@
 import json
-from typing import Dict, List, Union
 
 from walletobjects import constants
-from walletobjects.utils import utils
+from walletobjects import utils
 
-class eventTicketObject(dict):
-    def __init__(self, objectID: str, classID: str, objectState: constants.objectState, defaultLang: str) -> Dict:
-        if not objectID:
-            raise ValueError('objectID is not provided')
 
-        if not classID:
-            raise ValueError('classID is not provided')
+class EventTicketObject(dict):
+    def __init__(self, object_id, class_id, object_state, default_lang):
+        if not object_id:
+            raise ValueError('object_id is not provided')
 
-        if not hasattr(constants.objectState, objectState):
-            raise TypeError('objectState is not of instance walletobjects.constants.objectState')
+        if not class_id:
+            raise ValueError('class_id is not provided')
 
-        if not defaultLang:
-            raise ValueError('defaultLang is not specified')
+        if not hasattr(constants.ObjectState, str(object_state)):
+            raise TypeError('object_state is not of instance walletobjects.constants.objectState')
 
-        self._defaultLang = defaultLang
+        if not default_lang:
+            raise ValueError('default_lang is not specified')
+
+        self._defaultLang = default_lang
 
         self._eventTicketObject = {
             'kind': 'walletobjects#eventTicketObject',
-            'id': objectID,
-            'classId': classID,
-            'state': objectState,
+            'id': object_id,
+            'classId': class_id,
+            'state': object_state,
         }
 
-    def barcode(self, type: constants.barcode, value: str, alternateText: str = None) -> None:
-        if not hasattr(constants.barcode, type):
+    def barcode(self, barcode_type, value, alternate_text=None):
+        if not hasattr(constants.Barcode, str(barcode_type)):
             raise TypeError('barcode is not of instance walletobjects.constants.barcode')
 
         self._eventTicketObject['barcode'] = {
             'kind': 'walletobjects#barcode',
-            'type': type,
+            'type': barcode_type,
             'value': value,
-            'alternateText': alternateText if alternateText else "",
+            'alternateText': alternate_text if alternate_text else "",
         }
 
     '''
-    def messages(self, header: str, localizedHeader: Dict[str, str], body: str, localizedBody: Dict[str, str]) -> None:
+    def messages(self, header, localized_header, body:, localized_body):
         if 'messages' not in self._eventTicketObject:
             self._eventTicketObject['messages'] = []
 
-        self._eventTicketObject['messages'].append(utils.message(header, localizedHeader, body, localizedBody, self._defaultLang))
+        self._eventTicketObject['messages'].append(
+            utils.message(header, localized_header, body, localized_body, self._defaultLang)
+        )
     '''
-    def validTimeInterval(self, validTimeInterval) -> None:
+    def valid_time_interval(self, valid_time_interval):
         pass
 
-    def locations(self, latitude: float, longitude: float) -> None:
+    def locations(self, latitude, longitude):
         if 'locations' not in self._eventTicketObject:
             self._eventTicketObject['locations'] = []
 
-        self._eventTicketObject['locations'].append(utils.latLongPoint(latitude, longitude))
+        self._eventTicketObject['locations'].append(utils.lat_long_point(latitude, longitude))
 
-    def disableExpirationNotification(self, disableExpirationNotification: bool) -> None:
-        self._eventTicketObject['disableExpirationNotification'] = bool(disableExpirationNotification)
+    def disable_expiration_notification(self, disable_expiration_notification):
+        self._eventTicketObject['disableExpirationNotification'] = bool(disable_expiration_notification)
         pass
 
-    def infoModuleData(self, infoModuleData) -> None:
+    def info_module_data(self, info_module_data):
         pass
 
-    def imageModulesData(self, uri: str, description: str, localizedDescriptions: List[Dict[str, str]]) -> None:
+    def image_modules_data(self, uri, description, localized_descriptions):
         self._eventTicketObject['imageModulesData'] = [{
-            'mainImage': utils.image(uri, description, localizedDescriptions, self._defaultLang)
+            'mainImage': utils.image(uri, description, localized_descriptions, self._defaultLang)
         }]
 
-    def textModulesData(self, header: str, body: str, localizedHeader: List[Dict[str, str]], localizedBody: List[Dict[str, str]]) -> None:
-        textModule = {
+    def text_modules_data(self, header, body, localized_header, localized_body):
+        text_module = {
             'header': header,
             'body': body,
-            'localizedHeader': utils.localizedString(localizedHeader, self._defaultLang),
-            'localizedBody': utils.localizedString(localizedBody, self._defaultLang),
+            'localizedHeader': utils.localized_string(localized_header, self._defaultLang),
+            'localizedBody': utils.localized_string(localized_body, self._defaultLang),
         }
 
         if not 'textModulesData' in self._eventTicketObject:
             self._eventTicketObject['textModulesData'] = []
 
-        self._eventTicketObject['textModulesData'].append(textModule)
+        self._eventTicketObject['textModulesData'].append(text_module)
 
-    def linksModuleData(self, uri: str, description: str, localizedDescriptions: Dict[str, str]) -> None:
+    def links_module_data(self, uri, description, localized_descriptions):
         if 'linksModuleData' not in self._eventTicketObject:
             self._eventTicketObject['linksModuleData'] = []
 
-        self._eventTicketObject['linksModuleData'].append(utils.localizedUri(uri, description, localizedDescriptions, self._defaultLang))
+        self._eventTicketObject['linksModuleData'].append(
+            utils.localized_uri(uri, description, localized_descriptions, self._defaultLang)
+        )
 
-    def seat(self, seat: str) -> None:
+    def seat(self, seat):
         if 'seatInfo' not in self._eventTicketObject:
             self._eventTicketObject['seatInfo'] = {
                 'kind': 'walletobjects#eventSeat'
             }
 
-        self._eventTicketObject['seatInfo']['seat'] = utils.localizedString(seat, self._defaultLang)
+        self._eventTicketObject['seatInfo']['seat'] = utils.localized_string(seat, self._defaultLang)
 
-    def row(self, row: str) -> None:
+    def row(self, row):
         if 'seatInfo' not in self._eventTicketObject:
             self._eventTicketObject['seatInfo'] = {
                 'kind': 'walletobjects#eventSeat'
             }
 
-        self._eventTicketObject['seatInfo']['row'] = utils.localizedString(row, self._defaultLang)
+        self._eventTicketObject['seatInfo']['row'] = utils.localized_string(row, self._defaultLang)
 
-    def row(self, section: str) -> None:
+    def section(self, section):
         if 'seatInfo' not in self._eventTicketObject:
             self._eventTicketObject['seatInfo'] = {
                 'kind': 'walletobjects#eventSeat'
             }
 
-        self._eventTicketObject['seatInfo']['section'] = utils.localizedString(section, self._defaultLang)
+        self._eventTicketObject['seatInfo']['section'] = utils.localized_string(section, self._defaultLang)
 
-    def gate(self, gate: str) -> None:
+    def gate(self, gate):
         if 'seatInfo' not in self._eventTicketObject:
             self._eventTicketObject['seatInfo'] = {
                 'kind': 'walletobjects#eventSeat'
             }
 
-        self._eventTicketObject['seatInfo']['gate'] = utils.localizedString(gate, self._defaultLang)
+        self._eventTicketObject['seatInfo']['gate'] = utils.localized_string(gate, self._defaultLang)
 
-    def reservationInfo(self, reservationInfo: str) -> None:
+    def reservation_info(self, reservation_info):
         self._eventTicketObject['reservationInfo'] = {
             'kind': 'walletobjects#eventReservationInfo',
-            'confirmationCode': reservationInfo,
+            'confirmationCode': reservation_info,
         }
 
-    def ticketHolderName(self, ticketHolderName: str) -> None:
-        self._eventTicketObject['ticketHolderName'] = ticketHolderName
+    def ticket_holder_name(self, ticket_holder_name):
+        self._eventTicketObject['ticketHolderName'] = ticket_holder_name
 
-    def ticketNumber(self, ticketNumber: str) -> None:
-        self._eventTicketObject['ticketNumber'] = ticketNumber
+    def ticket_number(self, ticket_number):
+        self._eventTicketObject['ticketNumber'] = ticket_number
 
-    def ticketType(self, ticketType: List[Dict[str, str]]) -> None:
-        self._eventTicketObject['ticketType'] = utils.localizedString(ticketType, self._defaultLang)
+    def ticket_type(self, ticket_type):
+        self._eventTicketObject['ticketType'] = utils.localized_string(ticket_type, self._defaultLang)
 
-    def faceValue(self, faceValue: int, currencyCode: str) -> None:
+    def face_value(self, face_value, currency_code):
         self._eventTicketObject['faceValue'] = {
             'kind': 'walletobjects#money',
-            'micros': int(faceValue),
-            'currencyCode': currencyCode,
+            'micros': int(face_value),
+            'currencyCode': currency_code,
         }
 
     def __getitem__(self, index):

@@ -1,170 +1,176 @@
 import json
-from typing import Dict, List, Union
 
 from walletobjects import constants
-from walletobjects.utils import utils
+from walletobjects import utils
 
-class eventTicketClass(dict):
-    def __init__(self, issuerName: str, classID: str,
-                 multipleDevicesAndHoldersAllowedStatus, eventName: Dict[str, str],
-                 reviewStatus: constants.multipleDevicesAndHoldersAllowedStatus, defaultLang: str) -> Dict:
-        if not issuerName:
-            raise ValueError('issuerName is not provided')
 
-        if not classID:
-            raise ValueError('classID is not provided')
+class EventTicketClass(dict):
+    def __init__(
+            self, issuer_name, class_id, multiple_devices_and_holders_allowed_status, event_name, review_status,
+            default_lang
+    ):
+        if not issuer_name:
+            raise ValueError('issuer_name is not provided')
 
-        if not hasattr(constants.multipleDevicesAndHoldersAllowedStatus, multipleDevicesAndHoldersAllowedStatus):
-            raise TypeError('multipleDevicesAndHoldersAllowedStatus is not of instance walletobjects.constants.multipleDevicesAndHoldersAllowedStatus')
+        if not class_id:
+            raise ValueError('class_id is not provided')
 
-        if not eventName:
-            raise ValueError('eventName is not provided')
+        if not hasattr(
+                constants.MultipleDevicesAndHoldersAllowedStatus,
+                str(multiple_devices_and_holders_allowed_status)
+        ):
+            raise TypeError(
+                "multiple_devices_and_holders_allowed_status is not of instance "
+                "walletobjects.constants.MultipleDevicesAndHoldersAllowedStatus"
+            )
 
-        if not hasattr(constants.reviewStatus, reviewStatus):
-            raise TypeError('reviewStatus is not of instance walletobjects.constants.reviewStatus')
+        if not event_name:
+            raise ValueError('event_name is not provided')
 
-        if not defaultLang:
-            raise ValueError('defaultLang is not specified')
+        if not hasattr(constants.ReviewStatus, str(review_status)):
+            raise TypeError('review_status is not of instance walletobjects.constants.reviewStatus')
 
-        self._defaultLang = defaultLang
+        if not default_lang:
+            raise ValueError('default_lang is not specified')
+
+        self._defaultLang = default_lang
 
         self._eventTicketClass = {
             'kind': 'walletobjects#eventTicketClass',
-            'id': classID,
-            'issuerName': issuerName,
-            'multipleDevicesAndHoldersAllowedStatus': multipleDevicesAndHoldersAllowedStatus,
-            'eventName': utils.localizedString(eventName, self._defaultLang),
-            'reviewStatus': reviewStatus,
+            'id': class_id,
+            'issuerName': issuer_name,
+            'multipleDevicesAndHoldersAllowedStatus': multiple_devices_and_holders_allowed_status,
+            'eventName': utils.localized_string(event_name, self._defaultLang),
+            'reviewStatus': review_status,
         }
 
-    def localizedIssuerName(self, localizedIssuerName: List[Dict[str, str]]) -> None:
-        self._eventTicketClass['localizedIssuerName'] = utils.localizedString(localizedIssuerName, self._defaultLang)
+    def localized_issuer_name(self, localized_issuer_name):
+        self._eventTicketClass['localizedIssuerName'] = utils.localized_string(localized_issuer_name, self._defaultLang)
 
-    def messages(self, header: str, localizedHeader: Dict[str, str], body: str, localizedBody: Dict[str, str]) -> None:
+    def messages(self, header, localized_header, body, localized_body):
         if 'messages' not in self._eventTicketClass:
             self._eventTicketClass['messages'] = []
 
-        self._eventTicketClass['messages'].append(utils.message(header, localizedHeader, body, localizedBody, self._defaultLang))
+        self._eventTicketClass['messages'].append(
+            utils.message(header, localized_header, body, localized_body, self._defaultLang)
+        )
 
-    def homepageUri(self, uri: str, description: str, localizedDescriptions: List[Dict[str, str]]) -> None:
-        self._eventTicketClass['homepageUri'] = utils.localizedUri(uri, description, localizedDescriptions, self._defaultLang)
+    def homepage_uri(self, uri, description, localized_descriptions):
+        self._eventTicketClass['homepageUri'] = utils.localized_uri(
+            uri, description, localized_descriptions, self._defaultLang
+        )
 
-    def locations(self, latitude: float, longitude: float) -> None:
+    def locations(self, latitude, longitude):
         if 'locations' not in self._eventTicketClass:
             self._eventTicketClass['locations'] = []
 
-        self._eventTicketClass['locations'].append(utils.latLongPoint(latitude, longitude))
+        self._eventTicketClass['locations'].append(utils.lat_long_point(latitude, longitude))
 
-    def infoModuleData(self, infoModuleData) -> None:
+    def info_module_data(self, info_module_data):
         pass
 
-    def imageModulesData(self, uri: str, description: str, localizedDescriptions: List[Dict[str, str]]) -> None:
+    def image_modules_data(self, uri, description, localized_descriptions):
         self._eventTicketClass['imageModulesData'] = [{
-            'mainImage': utils.image(uri, description, localizedDescriptions, self._defaultLang)
+            'mainImage': utils.image(uri, description, localized_descriptions, self._defaultLang)
         }]
 
-    def textModulesData(self, header: str, body: str, localizedHeader: List[Dict[str, str]], localizedBody: List[Dict[str, str]]) -> None:
-        textModule = {
+    def text_modules_data(self, header, body, localized_header, localized_body):
+        text_module = {
             'header': header,
             'body': body,
-            'localizedHeader': utils.localizedString(localizedHeader, self._defaultLang),
-            'localizedBody': utils.localizedString(localizedBody, self._defaultLang),
+            'localizedHeader': utils.localized_string(localized_header, self._defaultLang),
+            'localizedBody': utils.localized_string(localized_body, self._defaultLang),
         }
 
-        if not 'textModulesData' in self._eventTicketClass:
+        if 'textModulesData' not in self._eventTicketClass:
             self._eventTicketClass['textModulesData'] = []
 
-        self._eventTicketClass['textModulesData'].append(textModule)
+        self._eventTicketClass['textModulesData'].append(text_module)
 
-
-    def linksModuleData(self, uri: str, description: str, localizedDescriptions: Dict[str, str]) -> None:
+    def links_module_data(self, uri, description, localizedDescriptions):
         if 'linksModuleData' not in self._eventTicketClass:
             self._eventTicketClass['linksModuleData'] = []
 
-        self._eventTicketClass['linksModuleData'].append(utils.localizedUri(uri, description, localizedDescriptions, self._defaultLang))
+        self._eventTicketClass['linksModuleData'].append(
+            utils.localized_uri(uri, description, localizedDescriptions, self._defaultLang)
+        )
 
-    def countryCode(self, countryCode: str) -> None:
-        self._eventTicketClass['countryCode'] = countryCode
+    def country_code(self, country_code):
+        self._eventTicketClass['countryCode'] = country_code
 
-    def hideBarcode(self, hideBarcode: bool) -> None:
-        #self._eventTicketClass['hideBarcode'] = bool(hideBarcode)
+    def hide_barcode(self, hide_barcode):
+        # self._eventTicketClass['hideBarcode'] = bool(hide_barcode)
         # This seems not be working at all.
         pass
 
-    def heroImage(self, uri: str, description: str, localizedDescriptions: List[Dict[str, str]]) -> None:
-        self._eventTicketClass['heroImage'] = utils.image(uri, description, localizedDescriptions, self._defaultLang)
+    def hero_image(self, uri, description, localized_descriptions):
+        self._eventTicketClass['heroImage'] = utils.image(uri, description, localized_descriptions, self._defaultLang)
 
-    def hexBackgroundColor(self, hexBackgroundColor: str) -> None:
-        self._eventTicketClass['hexBackgroundColor'] = hexBackgroundColor
+    def hex_background_color(self, hex_background_color):
+        self._eventTicketClass['hexBackgroundColor'] = hex_background_color
 
-    def eventId(self, eventId: str) -> None:
-        self._eventTicketClass['eventId'] = eventId
+    def event_id(self, event_id):
+        self._eventTicketClass['eventId'] = event_id
 
-    def logo(self, uri: str, description: str, localizedDescriptions: List[Dict[str, str]]) -> None:
-        self._eventTicketClass['logo'] = utils.image(uri, description, localizedDescriptions, self._defaultLang)
+    def logo(self, uri, description, localized_descriptions):
+        self._eventTicketClass['logo'] = utils.image(uri, description, localized_descriptions, self._defaultLang)
 
-    def venue(self, name: Dict[str, str], address: Dict[str, str]) -> None:
+    def venue(self, name, address):
         self._eventTicketClass['venue'] = utils.venue(name, address)
 
-    def dateTime(self, doorsOpenLabel: Union[Dict[str, str], constants.doorsOpen], doorsOpen: str, start: str, end: str) -> None:
-        dateTime = {
+    def date_time(self, doors_open_label, doors_open, start, end):
+        date_time = {
             'kind': 'walletobjects#eventDateTime',
-            'doorsOpen': doorsOpen,
+            'doorsOpen': doors_open,
             'start': start,
             'end': end
         }
 
-        try:
-            if hasattr(constants.doorsOpen, doorsOpenLabel):
-                dateTime['doorsOpenLabel'] = doorsOpenLabel
-        except:
-            dateTime['customDoorsOpenLabel'] = utils.localizedString(doorsOpenLabel, self._defaultLang)
+        if hasattr(constants.DoorsOpen, str(doors_open_label)):
+            date_time['doorsOpenLabel'] = doors_open_label
+        else:
+            date_time['customDoorsOpenLabel'] = utils.localized_string(doors_open_label, self._defaultLang)
 
-        self._eventTicketClass['dateTime'] = dateTime
+        self._eventTicketClass['dateTime'] = date_time
 
-    def finePrint(self, finePrint: Dict[str, str]) -> None:
-        self._eventTicketClass['finePrint'] = utils.localizedString(finePrint, self._defaultLang)
+    def fine_print(self, fine_print):
+        self._eventTicketClass['finePrint'] = utils.localized_string(fine_print, self._defaultLang)
 
-    def confirmationCodeLabel(self, confirmationCodeLabel: Union[Dict[str, str], constants.confirmationCode]) -> None:
-        try:
-            if hasattr(constants.confirmationCode, confirmationCodeLabel):
-                self._eventTicketClass['confirmationCodeLabel'] = confirmationCodeLabel
-        except:
-            self._eventTicketClass['customConfirmationCodeLabel'] = utils.localizedString(confirmationCodeLabel, self._defaultLang)
+    def confirmation_code_label(self, confirmation_code_label):
+        if hasattr(constants.ConfirmationCode, str(confirmation_code_label)):
+            self._eventTicketClass['confirmationCodeLabel'] = confirmation_code_label
+        else:
+            self._eventTicketClass['customConfirmationCodeLabel'] = utils.localized_string(
+                confirmation_code_label, self._defaultLang
+            )
 
+    def seat_label(self, seat_label):
+        if hasattr(constants.Seat, str(seat_label)):
+            self._eventTicketClass['seatLabel'] = seat_label
+        else:
+            self._eventTicketClass['customSeatLabel'] = utils.localized_string(seat_label, self._defaultLang)
 
-    def seatLabel(self, seatLabel: Union[Dict[str, str], constants.seat]) -> None:
-        try:
-            if hasattr(constants.seat, seatLabel):
-                self._eventTicketClass['seatLabel'] = seatLabel
-        except:
-            self._eventTicketClass['customSeatLabel'] = utils.localizedString(seatLabel, self._defaultLang)
+    def row_label(self, row_label):
+        if hasattr(constants.Row, str(row_label)):
+            self._eventTicketClass['rowLabel'] = row_label
+        else:
+            self._eventTicketClass['customRowLabel'] = utils.localized_string(row_label, self._defaultLang)
 
-    def rowLabel(self, rowLabel: Union[Dict[str, str], constants.row]) -> None:
-        try:
-            if hasattr(constants.row, rowLabel):
-                self._eventTicketClass['rowLabel'] = rowLabel
-        except:
-            self._eventTicketClass['customRowLabel'] = utils.localizedString(rowLabel, self._defaultLang)
+    def section_label(self, section_label):
+        if hasattr(constants.Section, str(section_label)):
+            self._eventTicketClass['sectionLabel'] = section_label
+        else:
+            self._eventTicketClass['customSectionLabel'] = utils.localized_string(section_label, self._defaultLang)
 
+    def gate_label(self, gate_label):
+        if hasattr(constants.Gate, str(gate_label)):
+            self._eventTicketClass['gateLabel'] = gate_label
+        else:
+            self._eventTicketClass['customGateLabel'] = utils.localized_string(gate_label, self._defaultLang)
 
-    def sectionLabel(self, sectionLabel: Union[Dict[str, str], constants.section]) -> None:
-        try:
-            if hasattr(constants.section, sectionLabel):
-                self._eventTicketClass['sectionLabel'] = sectionLabel
-        except:
-            self._eventTicketClass['customSectionLabel'] = utils.localizedString(sectionLabel, self._defaultLang)
-
-    def gateLabel(self, gateLabel: Union[Dict[str, str], constants.gate]) -> None:
-        try:
-            if hasattr(constants.gate, gateLabel):
-                self._eventTicketClass['gateLabel'] = gateLabel
-        except:
-            self._eventTicketClass['customGateLabel'] = utils.localizedString(gateLabel, self._defaultLang)
-
-    def callbackUrl(self, url):
+    def callback_url(self, callback_url):
         self._eventTicketClass['callbackOptions'] = {
-            'url': url
+            'url': callback_url
         }
 
     def __getitem__(self, index):
