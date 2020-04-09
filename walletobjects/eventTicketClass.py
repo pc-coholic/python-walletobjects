@@ -36,7 +36,6 @@ class EventTicketClass(dict):
         self._defaultLang = default_lang
 
         self._eventTicketClass = {
-            'kind': 'walletobjects#eventTicketClass',
             'id': class_id,
             'issuerName': issuer_name,
             'multipleDevicesAndHoldersAllowedStatus': multiple_devices_and_holders_allowed_status,

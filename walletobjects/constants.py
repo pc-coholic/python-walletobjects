@@ -63,3 +63,21 @@ class Barcode(object):
     textOnly = 'textOnly'
     upcA = 'upcA'
     upcE = 'upcE'
+
+
+class ClassType(object):
+    eventTicketClass = 'eventTicketClass'
+    flightClass = 'flightClass'
+    giftCardClass = 'giftCardClass'
+    loyaltyClass = 'loyaltyClass'
+    offerClass = 'offerClass'
+    transitClass = 'transitClass'
+
+
+class ObjectType(object):
+    eventTicketObject = 'eventTicketObject'
+    flightObject = 'flightObject'
+    giftCardObject = 'giftCardObject'
+    loyaltyObject = 'loyaltyObject'
+    offerObject = 'offerObject'
+    transitObject = 'transitObject'

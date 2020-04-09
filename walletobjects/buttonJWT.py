@@ -52,14 +52,18 @@ class ButtonJWT(dict):
 
     def skinnify(self, items):
         skinny = []
-        for item in items:
-            try:
-                skinny.append({
-                    "classId": item['classId'],
-                    "id": item['id']
-                })
-            except KeyError:
-                skinny.append(item)
+
+        if isinstance(items, list):
+            for item in items:
+                try:
+                    skinny.append({
+                        "classId": item['classId'],
+                        "id": item['id']
+                    })
+                except KeyError:
+                    skinny.append(item)
+        else:
+            skinny.append(items)
 
         return skinny
 
