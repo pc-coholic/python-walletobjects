@@ -1,11 +1,11 @@
 import json
 from json import JSONDecodeError
 
-import constants
 from google.auth import crypt, jwt
-
 from google.auth.transport.requests import AuthorizedSession
 from google.oauth2 import service_account
+
+from walletobjects.constants import ClassType, ObjectType
 
 
 class Comms(object):
@@ -32,7 +32,7 @@ class Comms(object):
             raise Exception('Could not setup Comms. Did you properly setup the necessary credentials?')
 
     def get_item(self, item_type, item_name):
-        if not (hasattr(constants.ClassType, str(item_type)) or hasattr(constants.ObjectType, str(item_type))):
+        if not (hasattr(ClassType, str(item_type)) or hasattr(ObjectType, str(item_type))):
             raise Exception('Invalid Class or Object Type')
 
         result = self.__session.get(
@@ -46,8 +46,35 @@ class Comms(object):
         else:
             return None
 
+    def list_items(self, item_type, issuer_id=None, class_id=None):
+        if not (hasattr(ClassType, str(item_type)) or hasattr(ObjectType, str(item_type))):
+            raise Exception("Invalid Class or Object Type")
+
+        if not (bool(issuer_id) ^ bool(class_id)):
+            raise Exception("issuer_id or class_id must be provided")
+
+        if issuer_id:
+            key = 'issuerId'
+            val = issuer_id
+        elif class_id:
+            key = 'classId'
+            val = class_id
+        else:
+            raise Exception()
+
+        result = self.__session.get(
+            'https://walletobjects.googleapis.com/walletobjects/v1/%s?%s=%s' % (item_type, key, val)
+        )
+
+        if result.status_code == 200:
+            return result.json()
+        elif result.status_code == 404:
+            return False
+        else:
+            return None
+
     def put_item(self, item_type, item_name, payload):
-        if not (hasattr(constants.ClassType, str(item_type)) or hasattr(constants.ObjectType, str(item_type))):
+        if not (hasattr(ClassType, str(item_type)) or hasattr(ObjectType, str(item_type))):
             raise Exception('Invalid Class or Object Type')
 
         item = self.get_item(item_type, item_name)

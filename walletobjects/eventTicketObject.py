@@ -1,7 +1,6 @@
 import json
 
-from walletobjects import constants
-from walletobjects import utils
+from walletobjects import constants, utils
 
 
 class EventTicketObject(dict):

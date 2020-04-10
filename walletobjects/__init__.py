@@ -1,4 +1,6 @@
+from .buttonJWT import ButtonJWT
+from .constants import (Barcode, ClassType, ConfirmationCode, DoorsOpen, Gate,
+                        MultipleDevicesAndHoldersAllowedStatus, ObjectState,
+                        ObjectType, ReviewStatus, Row, Seat, Section)
 from .eventTicketClass import EventTicketClass
 from .eventTicketObject import EventTicketObject
-from .buttonJWT import ButtonJWT
-from .constants import MultipleDevicesAndHoldersAllowedStatus, ReviewStatus, DoorsOpen, ConfirmationCode, Seat, Row, Section, Gate, ObjectState, Barcode, ClassType, ObjectType
